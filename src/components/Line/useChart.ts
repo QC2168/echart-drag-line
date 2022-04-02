@@ -16,7 +16,6 @@ export default function useChart() {
     const markLabelId: string = 'markLabelId';
     const showLabel = (id: string, x: number, y: number, z: number) => {
         let newId = id.replace('dot', 'label');
-        console.log(id, x, y, z);
         Chart.setOption({
             graphic: {
                 id: markLabelId,
@@ -42,7 +41,7 @@ export default function useChart() {
             }
         });
     };
-    const hiddenLabel = (id: string): void => {
+    const hiddenLabel = (): void => {
         let option = Chart!.getOption();
         option.graphic = [
             {
@@ -79,7 +78,7 @@ export default function useChart() {
                     },
                     onmouseout: function () {
                         // 清空label
-                        hiddenLabel(this.id);
+                        hiddenLabel();
                     }
                 };
             })
@@ -116,20 +115,18 @@ export default function useChart() {
                 let id = cur.id;
                 // 删除圆点和label
                 option.graphic = {
-                    id: id,
+                    id,
                     $action: 'remove'
                 };
-                hiddenLabel(id)
+
                 Chart.setOption(option);
+                hiddenLabel()
                 // 从记录中删除圆点
-                let index = sourceDotPoints.value.findIndex((item) => (item.id = id));
+                let index = sourceDotPoints.value.findIndex((item) => (item.id === id));
                 sourceDotPoints.value.splice(index, 1);
                 //  把标签还回去
                 let newId: MarkType = cur.id.replace('dot-', '') as MarkType;
                 returnMark(newId);
-                queueMicrotask(() => {
-                    drawAllDot();
-                })
             }
         });
     };

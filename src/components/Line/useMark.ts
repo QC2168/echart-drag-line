@@ -3,7 +3,7 @@ import { MarkType } from './types';
 
 export default function useMark() {
   // 分配标签
-  let marks = ref<MarkType[]>(['h1', 'h2', 'h3', 'h4', 'h5']);
+  let marks = ref<MarkType[]>([MarkType.H1, MarkType.H2 ,MarkType.H3, MarkType.H4, MarkType.H5]);
   const getMark = (): MarkType => {
     if (marks.value.length !== 0) {
       return marks.value.shift() as MarkType;
